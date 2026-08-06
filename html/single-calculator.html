@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Нумерология — Една дата</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+  </head>
+  <body data-theme="dark">
+    <header>
+      <div class="header-inner">
+        <div class="brand">Нумерология</div>
+        <nav class="nav-links">
+          <a class="nav-link" href="index.html">Начало</a>
+          <a class="nav-link" href="single-calculator.html">Една дата</a>
+          <a class="nav-link" href="month-calculator.html">Месец</a>
+          <a class="nav-link" href="psychomatrix.html">Психоматрица</a>
+          <button class="theme-toggle" id="theme-toggle" type="button">
+            Превключи тема
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page">
+        <section class="hero">
+          <h1>Изчисляване по една дата</h1>
+          <p>
+            Изберете дата и вижте нумерологичната карта с редуцирани стойности,
+            повторения на цифри и подчертаните комбинации.
+          </p>
+        </section>
+
+        <section class="panel-grid">
+          <div class="controls">
+            <label>
+              Дата
+              <input id="date-input" type="date" />
+            </label>
+            <div class="chip-row">
+              <button class="button" id="calculate-date" type="button">
+                Изчисли
+              </button>
+              <button class="secondary-button" id="clear-date" type="button">
+                Изчисти
+              </button>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div id="date-summary" class="empty-state">
+              Изберете дата, за да започнете.
+            </div>
+            <div class="result-list" id="date-results"></div>
+          </div>
+        </section>
+
+        <section class="panel-grid" style="margin-top: 1.2rem">
+          <div class="summary-card">
+            <h2>Психоматрица</h2>
+            <div id="matrix-container" class="matrix-shell"></div>
+          </div>
+          <div class="summary-card">
+            <h2>Обобщение</h2>
+            <div id="profile-summary" class="empty-state">
+              Все още няма данни.
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="../js/numerologyEngine.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/singleCalculatorPage.js"></script>
+  </body>
+</html>
