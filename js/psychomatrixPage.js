@@ -6,155 +6,48 @@
   const buildButton = document.getElementById("build-composite");
   const resetButton = document.getElementById("reset-wheel");
 
-  if (!engine || !wheel || !buildButton) {
-    return;
-  }
-
-  const segments = [
-    { id: "first", title: "Първа част", label: "Дата 1" },
-    { id: "second", title: "Втора част", label: "Дата 2" },
-    { id: "third", title: "Трета част", label: "Дата 3" },
-    { id: "fourth", title: "Четвърта част", label: "Дата 4" },
-  ];
+  if (!engine || !wheel || !buildButton) return;
 
   const state = {
-    profiles: [],
+    profiles: [null, null, null, null],
     openSegment: null,
   };
 
+  // Node position coordinates for 3x3 grid layout (1-4-7, 2-5-8, 3-6-9)
   function positionForNode(value) {
     const mapping = {
-      1: { x: 10, y: 12 },
-      4: { x: 50, y: 12 },
-      7: { x: 90, y: 12 },
+      1: { x: 15, y: 15 },
+      4: { x: 50, y: 15 },
+      7: { x: 85, y: 15 },
 
-      2: { x: 10, y: 50 },
+      2: { x: 15, y: 50 },
       5: { x: 50, y: 50 },
-      8: { x: 90, y: 50 },
+      8: { x: 85, y: 50 },
 
-      3: { x: 10, y: 88 },
-      6: { x: 50, y: 88 },
-      9: { x: 90, y: 88 },
+      3: { x: 15, y: 85 },
+      6: { x: 50, y: 85 },
+      9: { x: 85, y: 85 },
     };
     return mapping[value];
   }
 
-  function renderWheel() {
-    wheel.innerHTML = segments
-      .map((segment, index) => {
-        const profile = state.profiles[index];
-        const dateValue = profile
-          ? `${String(profile.year).padStart(4, "0")}-${String(profile.month).padStart(2, "0")}-${String(profile.day).padStart(2, "0")}`
-          : "";
-        const isOpen = state.openSegment === index;
-        const hasProfile = Boolean(profile);
-        const cardClass = `segment-card${hasProfile ? "" : " empty-segment"}${isOpen ? " open" : ""}`;
+  // Helper to render dots and layer-sorted SVG lines
+  function renderSvgScheme(numbersPresent, highlighted) {
+    const typePriority = { normal: 1, special: 2, cross: 3, full: 4 };
+    const sortedHighlighted = [...highlighted].sort((a, b) => {
+      const typeA = a.connectionType || "normal";
+      const typeB = b.connectionType || "normal";
+      return (typePriority[typeA] || 1) - (typePriority[typeB] || 1);
+    });
 
-        let mini = "";
-        if (profile) {
-          const { highlighted } = engine.getHighlightedConnections(
-            profile.numbersPresent,
-          );
-          const pathMarkup = highlighted
-            .map((entry) => {
-              const [from, to] = entry.nodes;
-              const start = positionForNode(from);
-              const end = positionForNode(to);
-              const className = entry.connectionType
-                ? `matrix-connection ${entry.connectionType}`
-                : "matrix-connection normal";
-              return `<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}" class="${className}" />`;
-            })
-            .join("");
-
-          mini = `<div class="month-scheme"><div class="lead">${profile.leadNumber}</div><svg viewBox="0 0 100 100" preserveAspectRatio="none">${pathMarkup}</svg></div>`;
-        }
-
-        return `
-          <section class="segment">
-            <div class="${cardClass}" data-segment="${index}">
-              <div class="segment-controls">
-                <h3>${segment.title}</h3>
-                ${hasProfile || isOpen ? "" : `<button class="plus" type="button" data-seg="${index}" title="Добави дата">+</button>`}
-              </div>
-              ${hasProfile ? `<p>${profile.label}</p>` : `<p class="empty-state">Празен сегмент</p>`}
-              ${isOpen ? `<input class="segment-date" type="date" data-date-index="${index}" value="${dateValue}" />` : ""}
-              ${profile ? mini : ""}
-            </div>
-          </section>`;
+    const dotsMarkup = numbersPresent
+      .map((num) => {
+        const pos = positionForNode(num);
+        return `<circle cx="${pos.x}" cy="${pos.y}" r="3" class="matrix-node-dot" fill="#60a5fa" opacity="0.95" />`;
       })
       .join("");
 
-    wheel.querySelectorAll(".plus").forEach((button) => {
-      button.addEventListener("click", (ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        const idx = Number(button.getAttribute("data-seg"));
-        state.openSegment = idx;
-        renderWheel();
-      });
-    });
-
-    wheel.querySelectorAll(".segment-card.empty-segment").forEach((card) => {
-      card.addEventListener("click", () => {
-        const idx = Number(card.getAttribute("data-segment"));
-        state.openSegment = idx;
-        renderWheel();
-      });
-    });
-
-    wheel.querySelectorAll('input[type="date"]').forEach((input) => {
-      input.addEventListener("change", () => {
-        const idx = Number(input.getAttribute("data-date-index"));
-        const val = input.value;
-        if (!val) return;
-        try {
-          const profile = engine.createProfileFromDate(val);
-          state.profiles[idx] = profile;
-          state.openSegment = null;
-          renderWheel();
-        } catch (e) {
-          alert(e.message || "Невалидна дата");
-        }
-      });
-    });
-  }
-
-  function renderComposite() {
-    if (state.profiles.length < 4 || state.profiles.some((value) => !value)) {
-      summary.textContent = "Запълнете всички четири сегмента.";
-      details.innerHTML = "";
-      return;
-    }
-
-    const composite = engine.buildCompositeProfile(state.profiles);
-    const { highlighted, special } = engine.getHighlightedConnections(
-      composite.numbersPresent,
-    );
-    summary.textContent = `Финална схема • Главно число ${composite.leadNumber}`;
-    details.innerHTML = `
-      <div class="result-row"><span>Общо налични числа</span><span>${composite.numbersPresent.join(", ") || "—"}</span></div>
-      <div class="result-row"><span>Подчертани линии</span><span>${highlighted.length}</span></div>
-      <div class="result-row"><span>Специални комбинации</span><span>${special.length}</span></div>
-    `;
-
-    // draw composite visual (only lead number + connection lines)
-    function positionForNode(value) {
-      const mapping = {
-        1: { x: 10, y: 12 },
-        2: { x: 50, y: 12 },
-        3: { x: 90, y: 12 },
-        4: { x: 10, y: 50 },
-        5: { x: 50, y: 50 },
-        6: { x: 90, y: 50 },
-        7: { x: 10, y: 88 },
-        8: { x: 50, y: 88 },
-        9: { x: 90, y: 88 },
-      };
-      return mapping[value];
-    }
-
-    const pathMarkup = highlighted
+    const pathMarkup = sortedHighlighted
       .map((entry) => {
         const [from, to] = entry.nodes;
         const start = positionForNode(from);
@@ -166,20 +59,114 @@
       })
       .join("");
 
-    // keep input segments visible; render final composite into the details box next to inputs
+    return `${dotsMarkup}${pathMarkup}`;
+  }
+
+  function renderWheel() {
+    wheel.innerHTML = state.profiles
+      .map((profile, index) => {
+        const isOpen = state.openSegment === index;
+        const hasProfile = Boolean(profile);
+        const cardClass = `segment-card${hasProfile ? " has-profile" : ""}`;
+
+        let content = "";
+        if (isOpen) {
+          const currentDate = profile
+            ? `${String(profile.year).padStart(4, "0")}-${String(profile.month).padStart(2, "0")}-${String(profile.day).padStart(2, "0")}`
+            : "";
+          content = `
+            <input class="segment-date" type="date" data-date-index="${index}" value="${currentDate}" autoFocus />
+            ${profile ? `<span class="selected-date-label">${profile.label}</span>` : ""}
+          `;
+        } else if (hasProfile) {
+          const { highlighted } = engine.getHighlightedConnections(
+            profile.numbersPresent,
+          );
+          const svgMarkup = renderSvgScheme(
+            profile.numbersPresent,
+            highlighted,
+          );
+          content = `
+            <div class="map-scheme">
+              <div class="lead">${profile.leadNumber}</div>
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none">${svgMarkup}</svg>
+            </div>
+            <span class="selected-date-label">${profile.label}</span>`;
+        } else {
+          content = `<button class="plus-btn" type="button" data-seg="${index}" title="Добави дата">+</button>`;
+        }
+
+        return `
+          <section class="segment">
+            <div class="${cardClass}" data-segment="${index}">
+              ${content}
+            </div>
+          </section>`;
+      })
+      .join("");
+
+    // Setup Listeners
+    wheel.querySelectorAll(".plus-btn").forEach((btn) => {
+      btn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        state.openSegment = Number(btn.getAttribute("data-seg"));
+        renderWheel();
+      });
+    });
+
+    wheel.querySelectorAll('input[type="date"]').forEach((input) => {
+      input.addEventListener("change", () => {
+        const idx = Number(input.getAttribute("data-date-index"));
+        if (!input.value) return;
+        try {
+          state.profiles[idx] = engine.createProfileFromDate(input.value);
+          state.openSegment = null;
+          renderWheel();
+        } catch (e) {
+          alert(e.message || "Невалидна дата");
+        }
+      });
+    });
+  }
+
+  function renderComposite() {
+    if (state.profiles.some((p) => !p)) {
+      summary.textContent = "Запълнете всички четири сегмента.";
+      details.innerHTML = "";
+      return;
+    }
+
+    const composite = engine.buildCompositeProfile(state.profiles);
+    const { highlighted, special } = engine.getCompositeHighlightedConnections(
+      state.profiles,
+    );
+
+    summary.textContent = `Финална схема • Главно число ${composite.leadNumber}`;
+
+    // Format new combinations list as individual chips
+    const newCombosMarkup =
+      special.length > 0
+        ? `<div class="new-combinations-list">
+            ${special.map((triplet) => `<span class="new-combination-chip">${triplet.join("-")}</span>`).join("")}
+           </div>`
+        : "<span>Няма нови</span>";
+
     details.innerHTML = `
-      <div class="result-row"><span>Общо налични числа</span><span>${composite.numbersPresent.join(", ") || "—"}</span></div>
-      <div class="result-row"><span>Подчертани линии</span><span>${highlighted.length}</span></div>
-      <div class="result-row"><span>Специални комбинации</span><span>${special.length}</span></div>
+      <div class="result-row"><span>Общо налични числа</span><span>${composite.numbersPresent.sort((a, b) => a - b).join(", ") || "—"}</span></div>
+      <div class="result-row" style="flex-direction: column; align-items: flex-start; gap: 0.3rem;">
+        <span>Нови комбинации</span>
+        ${newCombosMarkup}
+      </div>
     `;
 
-    // render a larger composite visualization using the same SVG style as monthly maps
+    // Render Square Composite Canvas with larger centered lead number
     const compositeContainer = document.getElementById("composite-matrix");
     if (compositeContainer) {
+      const svgMarkup = renderSvgScheme(composite.numbersPresent, highlighted);
       compositeContainer.innerHTML = `
-        <div class="month-scheme composite-scheme">
+        <div class="composite-container">
           <div class="lead">${composite.leadNumber}</div>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none">${pathMarkup}</svg>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">${svgMarkup}</svg>
         </div>
       `;
     }
@@ -188,10 +175,13 @@
   buildButton.addEventListener("click", renderComposite);
 
   resetButton.addEventListener("click", () => {
-    state.profiles = [];
+    state.profiles = [null, null, null, null];
+    state.openSegment = null;
     renderWheel();
     summary.textContent = "Запълнете всички четири сегмента.";
     details.innerHTML = "";
+    const compositeContainer = document.getElementById("composite-matrix");
+    if (compositeContainer) compositeContainer.innerHTML = "";
   });
 
   renderWheel();

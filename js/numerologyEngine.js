@@ -332,6 +332,78 @@
     };
   }
 
+  function getCompositeHighlightedConnections(individualProfiles) {
+    // 1. Combine all present numbers across all profiles
+    const compositeNumbers = Array.from(
+      new Set(individualProfiles.flatMap((p) => p.numbersPresent)),
+    );
+
+    // Helper to standardise keys for arrays
+    function sortedKey(nodes) {
+      return [...nodes].sort((a, b) => a - b).join(",");
+    }
+
+    // 2. Collect all special triplets completed inside ANY single profile
+    const singleTriplets = new Set();
+    individualProfiles.forEach((profile) => {
+      specialTriplets.forEach((triplet) => {
+        if (triplet.every((num) => profile.numbersPresent.includes(num))) {
+          singleTriplets.add(sortedKey(triplet));
+        }
+      });
+    });
+
+    // 3. Find triplets that exist in the composite map BUT were NOT complete in any single profile
+    const compositeOnlySpecialTriplets = specialTriplets.filter((triplet) => {
+      const isCompleteInComposite = triplet.every((num) =>
+        compositeNumbers.includes(num),
+      );
+      const wasInSingle = singleTriplets.has(sortedKey(triplet));
+      return isCompleteInComposite && !wasInSingle;
+    });
+
+    // 4. Get standard composite highlights
+    const { highlighted, isFullMap, isCrossActive } =
+      getHighlightedConnections(compositeNumbers);
+
+    // Set of edge keys that belong to newly formed overlap triplets
+    const validNewEdges = new Set();
+    compositeOnlySpecialTriplets.forEach((triplet) => {
+      // A triplet like [1, 4, 7] consists of edges: [1, 4], [4, 7], etc.
+      connectionMatrix.forEach((entry) => {
+        if (entry.nodes.every((node) => triplet.includes(node))) {
+          validNewEdges.add(sortedKey(entry.nodes));
+        }
+      });
+    });
+
+    // 5. Process all matrix lines
+    const finalHighlighted = highlighted.map((entry) => {
+      const edgeKey = sortedKey(entry.nodes);
+
+      // Full map and Red Cross keep their active connection types
+      if (entry.connectionType === "full" || entry.connectionType === "cross") {
+        return entry;
+      }
+
+      // A special line is ONLY highlighted if it's part of a NEWLY formed triplet
+      if (validNewEdges.has(edgeKey)) {
+        return { ...entry, connectionType: "special" };
+      }
+
+      // Otherwise, draw all active doubles (like 4-7, 8-9) as normal lines
+      return { ...entry, connectionType: "normal" };
+    });
+
+    return {
+      highlighted: finalHighlighted,
+      special: compositeOnlySpecialTriplets,
+      isFullMap,
+      isCrossActive,
+      numbersPresent: compositeNumbers,
+    };
+  }
+
   return {
     reduceNumber,
     validateDate,
@@ -340,6 +412,7 @@
     buildCompositeProfile,
     createMonthProfiles,
     getHighlightedConnections,
+    getCompositeHighlightedConnections,
     connectionMatrix,
     specialTriplets,
   };

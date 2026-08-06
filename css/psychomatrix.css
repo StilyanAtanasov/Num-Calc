@@ -1,0 +1,215 @@
+/* Core Wheel Adjustments */
+.wheel {
+  position: relative;
+  width: min(100%, 520px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.18),
+    rgba(255, 255, 255, 0.03)
+  );
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.wheel::before,
+.wheel::after {
+  content: "";
+  position: absolute;
+  border-color: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wheel::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.wheel::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Quadrant Container Sizes - shrink padding so cards fit cleanly */
+.segment {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  padding: 1.25rem; /* Increased padding shrinks inner card size */
+  box-sizing: border-box;
+}
+
+.segment:nth-child(1) {
+  top: 10%;
+  left: 10%;
+}
+.segment:nth-child(2) {
+  top: 10%;
+  left: 50%;
+}
+.segment:nth-child(3) {
+  top: 50%;
+  left: 10%;
+}
+.segment:nth-child(4) {
+  top: 50%;
+  left: 50%;
+}
+
+/* Segment Cards */
+.segment-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.segment-card.has-profile {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Selected Date Label below Input */
+.segment-card .selected-date-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Faded Plus Button */
+.segment-card .plus-btn {
+  background: transparent;
+  border: none;
+  font-size: 2.8rem;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.segment-card:hover .plus-btn {
+  color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.1);
+}
+
+.segment-card input[type="date"] {
+  width: 90%;
+  font-size: 0.75rem;
+  border-radius: 0.4rem;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+/* Mini Scheme inside Segments */
+.map-scheme {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.map-scheme .lead {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--accent);
+  transform: translateX(-50%);
+}
+
+.map-scheme svg {
+  margin-top: 1rem;
+}
+
+/* Square Composite Matrix Styling */
+.composite-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1; /* Forces strict 1:1 Square layout */
+  margin: 1.5rem auto 0 auto;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Centered & Larger Lead Number for Square Composite Matrix */
+.composite-container .lead {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: -1rem;
+}
+
+.composite-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* List of New Combinations */
+.new-combinations-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.new-combinations-list .new-combination-chip {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.5rem;
+}
+
+.new-combinations-list .new-combination-chip:nth-child(2) {
+  color: var(--accent);
+  border: 1px solid var(--accent-strong);
+}
+
+.new-combinations-list .new-combination-chip:nth-child(3) {
+  color: var(--good);
+  border: 1px solid var(--good);
+}
+
+.new-combinations-list .new-combination-chip:nth-child(3) {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
