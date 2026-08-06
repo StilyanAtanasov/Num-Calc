@@ -40,6 +40,10 @@
   border-left: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+#wheel-summary {
+  margin-top: 0.5rem;
+}
+
 /* Quadrant Container Sizes - shrink padding so cards fit cleanly */
 .segment {
   position: absolute;
@@ -122,8 +126,8 @@
 }
 
 .segment-card input[type="date"] {
-  width: 90%;
-  font-size: 0.75rem;
+  width: 95%;
+  font-size: 1rem;
   border-radius: 0.4rem;
   padding: 0.35rem;
   border: 1px solid var(--border);

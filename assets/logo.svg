@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="120" height="120">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.05"/>
+    </linearGradient>
+    
+    <!-- Glow Effect for Core Nodes -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Outer Ring Base -->
+  <circle cx="50" cy="50" r="44" fill="url(#bg-grad)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2"/>
+  <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(139, 92, 246, 0.4)" stroke-width="1" stroke-dasharray="4 2"/>
+
+  <!-- Connection Matrix Lines -->
+  <!-- Outer Square Bounds -->
+  <path d="M 28 28 L 72 28 L 72 72 L 28 72 Z" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+  
+  <!-- Active Highlight Lines (Psychomatrix Connections) -->
+  <line x1="28" y1="28" x2="72" y2="72" stroke="#60a5fa" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <line x1="28" y1="72" x2="72" y2="28" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <line x1="50" y1="28" x2="50" y2="72" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+  <line x1="28" y1="50" x2="72" y2="50" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Matrix Node Dots (3x3 Layout) -->
+  <!-- Row 1 -->
+  <circle cx="28" cy="28" r="3.5" fill="#60a5fa"/>
+  <circle cx="50" cy="28" r="3.5" fill="#ffffff"/>
+  <circle cx="72" cy="28" r="3.5" fill="#60a5fa"/>
+
+  <!-- Row 2 -->
+  <circle cx="28" cy="50" r="3.5" fill="#ffffff"/>
+  <circle cx="50" cy="50" r="5" fill="#60a5fa"/>
+  <circle cx="50" cy="50" r="9" fill="url(#glow)"/>
+  <circle cx="72" cy="50" r="3.5" fill="#ffffff"/>
+
+  <!-- Row 3 -->
+  <circle cx="28" cy="72" r="3.5" fill="#60a5fa"/>
+  <circle cx="50" cy="72" r="3.5" fill="#ffffff"/>
+  <circle cx="72" cy="72" r="3.5" fill="#60a5fa"/>
+</svg>

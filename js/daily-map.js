@@ -92,10 +92,10 @@
   function render(profile) {
     const items = [
       { label: "Дата", value: profile.label },
-      { label: "Редуцирана дата", value: profile.reducedDay },
-      { label: "Редуциран месец", value: profile.reducedMonth },
-      { label: "Редуцирана година", value: profile.reducedYear },
-      { label: "Главно число", value: profile.leadNumber },
+      { label: "Ден", value: profile.reducedDay },
+      { label: "Месец", value: profile.reducedMonth },
+      { label: "Година", value: profile.reducedYear },
+      { label: "Път на живота", value: profile.leadNumber },
     ];
 
     summary.textContent = `Изчислено за ${profile.label}`;
@@ -118,7 +118,6 @@
 
     profileSummary.innerHTML = `
       <div class="result-list">
-        <div class="result-row"><span>Главно число</span><span>${profile.leadNumber}</span></div>
         ${countsMarkup || '<div class="result-row"><span>Налични числа</span><span>—</span></div>'}
       </div>
     `;

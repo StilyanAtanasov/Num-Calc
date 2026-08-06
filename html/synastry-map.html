@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Изчисли СЧK - Нум. Калк.</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/synastry-map.css" />
+    <link rel="stylesheet" href="../css/matrix.css" />
+  </head>
+  <body data-theme="dark" class="page-loading">
+    <div id="page-loader" class="page-loader">
+      <div class="loader-inner">
+        <div class="spinner"></div>
+        <div class="loader-text">Зареждане...</div>
+      </div>
+    </div>
+    <div id="shared-header"></div>
+
+    <main>
+      <section class="page">
+        <section class="hero">
+          <h1>Изчисли СЧK</h1>
+          <p>
+            Синастрията на четирите карти (СЧК) се формира като комбинация от
+            ДНK (дневна нумерологична карта), ГНK (годишна нумерологична карта),
+            МНK (месечна нумерологична карта) и РНK (рождена нумерологична
+            карта). Започнете като изберете дата с натискане на бутана "плюс" в
+            съответния сегмент. След като изберете всички четири дати, натиснете
+            бутона "Изчисли СЧК". Ще получите сборна карта на четирите ДНК. Ще
+            получите и обобщение на всички нови комбинации, които се формират от
+            четирите карти.
+          </p>
+        </section>
+
+        <section class="panel-grid">
+          <div class="wheel-card">
+            <div class="wheel" id="wheel"></div>
+          </div>
+          <div class="summary-card">
+            <div class="chip-row">
+              <button class="button" id="build-composite" type="button">
+                Изчисли СЧК
+              </button>
+              <button class="secondary-button" id="reset-wheel" type="button">
+                Нулирай
+              </button>
+            </div>
+            <div id="wheel-summary" class="empty-state">
+              Запълнете всички четири сегмента.
+            </div>
+            <div id="wheel-details" class="result-list"></div>
+            <div id="composite-matrix" style="margin-top: 1rem"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="../js/numerologyEngine.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/headerLoader.js"></script>
+    <script src="../js/synastry-map.js"></script>
+  </body>
+</html>

@@ -3,48 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Нумерология</title>
+    <title>Нум. Калк.</title>
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/app.css" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   </head>
-  <body data-theme="dark">
-    <header>
-      <div class="header-inner">
-        <div class="brand">Нумерология</div>
-        <nav class="nav-links">
-          <a class="nav-link" href="index.html">Начало</a>
-          <a class="nav-link" href="single-calculator.html">Една дата</a>
-          <a class="nav-link" href="month-calculator.html">Месец</a>
-          <a class="nav-link" href="psychomatrix.html">Психоматрица</a>
-          <button class="theme-toggle" id="theme-toggle" type="button">
-            Превключи тема
-          </button>
-        </nav>
+  <body data-theme="dark" class="page-loading">
+    <div id="page-loader" class="page-loader">
+      <div class="loader-inner">
+        <div class="spinner"></div>
+        <div class="loader-text">Зареждане...</div>
       </div>
-    </header>
+    </div>
+    <div id="shared-header"></div>
 
     <main>
       <section class="page">
         <section class="hero">
-          <h1>Нумерологичен инструмент за изследване и визуализация</h1>
+          <h1>Нумерологичен инструмент за бързо и лесно изчисление</h1>
           <p>
-            Използвайте трите отделни действия, за да разгледате нумерологичните
-            закономерности по дата, месец или като комбинирате четири отделни
-            карти в една обща схема.
+            Нум. Калк. е инструмент за бързо и лесно изчисление на нумерологични
+            карти. Можете да изчислите дневна нумерологична карта (ДНК) за една
+            дата, да прегледате всички дати в избран месец или да изчислите
+            синастрията на четирите карти (СЧК).
           </p>
         </section>
 
         <section class="actions-grid">
           <article class="card">
-            <h2>Една дата</h2>
+            <h2>Изчисли ДНК</h2>
             <p>
-              Въведете дата и вижте как се формират основните числа,
-              комбинациите и финалната карта.
+              Изчислете дневната нумерологична карта (ДНК) за една дата в
+              детайли.
             </p>
-            <a class="button" href="single-calculator.html">Отвори</a>
+            <a class="button" href="daily-map.html">Отвори</a>
           </article>
           <article class="card">
-            <h2>Месец</h2>
+            <h2>Изчисли месец</h2>
             <p>
               Изберете месец и прегледайте всички дати в него като отделни
               нумерологични профили.
@@ -52,10 +48,10 @@
             <a class="button" href="month-calculator.html">Отвори</a>
           </article>
           <article class="card">
-            <h2>Психоматрица</h2>
+            <h2>Изчисли СЧК</h2>
             <p>
-              Запълнете четири сегмента, след което вижте тяхното припокриване и
-              финалната схема.
+              Синастрията на четирите карти (СЧК) е комбинация от дневна,
+              месечна, годишна и рождена нумерологична карта.
             </p>
             <a class="button" href="psychomatrix.html">Отвори</a>
           </article>
@@ -65,5 +61,6 @@
 
     <script src="../js/numerologyEngine.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/headerLoader.js"></script>
   </body>
 </html>

@@ -3,35 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Нумерология — Месец</title>
+    <title>Изчисли Месец - Нум. Калк.</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/app.css" />
     <link rel="stylesheet" href="../css/month.css" />
     <link rel="stylesheet" href="../css/matrix.css" />
   </head>
-  <body data-theme="dark">
-    <header>
-      <div class="header-inner">
-        <div class="brand">Нумерология</div>
-        <nav class="nav-links">
-          <a class="nav-link" href="index.html">Начало</a>
-          <a class="nav-link" href="single-calculator.html">Една дата</a>
-          <a class="nav-link" href="month-calculator.html">Месец</a>
-          <a class="nav-link" href="psychomatrix.html">Психоматрица</a>
-          <button class="theme-toggle" id="theme-toggle" type="button">
-            Превключи тема
-          </button>
-        </nav>
+  <body data-theme="dark" class="page-loading">
+    <div id="page-loader" class="page-loader">
+      <div class="loader-inner">
+        <div class="spinner"></div>
+        <div class="loader-text">Зареждане...</div>
       </div>
-    </header>
+    </div>
+    <div id="shared-header"></div>
 
     <main>
       <section class="page">
         <section class="hero">
           <h1>Изчисляване за целия месец</h1>
           <p>
-            Изберете месец и вижте всички дати в него като отделни нумерологични
-            профили.
+            Изберете месец и прегледайте всички дати в него като отделни
+            нумерологични профили. Започнете като изберете месец и натиснете
+            бутона "Покажи месец". Веднага ще получите ДНК (дневна нумерологична
+            карта) на всички дати в избрания месец.
           </p>
         </section>
 
@@ -63,6 +60,7 @@
 
     <script src="../js/numerologyEngine.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/headerLoader.js"></script>
     <script src="../js/monthCalculatorPage.js"></script>
   </body>
 </html>
