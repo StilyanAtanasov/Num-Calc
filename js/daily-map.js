@@ -62,11 +62,12 @@
 
     matrixContainer.innerHTML = `
       <div class="matrix-lead">${profile.leadNumber}</div>
-      <svg class="matrix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        ${pathMarkup}
-      </svg>
-      <div class="matrix-grid">${nodeMarkup}</div>
-    `;
+      <div class="matrix-map">
+        <svg class="matrix-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          ${pathMarkup}
+        </svg>
+        <div class="matrix-grid">${nodeMarkup}</div>
+      </div>`;
   }
 
   function positionForNode(value) {
