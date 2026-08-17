@@ -122,14 +122,14 @@
 }
 
 .matrix-connection {
-  stroke: rgba(255, 255, 255, 0.24);
+  stroke: var(--wheel-line);
   stroke-width: 4;
   stroke-linecap: round;
   opacity: 0.62;
 }
 
 .matrix-connection.normal {
-  stroke: rgba(255, 255, 255, 0.24);
+  stroke: var(--wheel-line);
   opacity: 0.45;
 }
 

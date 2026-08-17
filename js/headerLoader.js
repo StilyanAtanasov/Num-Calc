@@ -18,6 +18,7 @@
       .then((html) => {
         headerPlaceholder.outerHTML = html;
         attachThemeToggle();
+        attachMobileMenu();
       })
       .catch((error) => {
         console.error(error);
@@ -25,6 +26,25 @@
       .finally(() => {
         document.body.classList.remove("page-loading");
       });
+  }
+
+  function attachMobileMenu() {
+    const menuToggle = document.getElementById("menu-toggle");
+    const header = document.querySelector("header");
+    if (!menuToggle || !header) return;
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = header.classList.toggle("menu-open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Затвори менюто" : "Отвори менюто");
+    });
+
+    header.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        header.classList.remove("menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 
   function attachThemeToggle() {

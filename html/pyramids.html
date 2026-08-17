@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Изчисли пирамиди - Нум.Калк.</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/pyramids.css" />
+  </head>
+  <body data-theme="dark" class="page-loading">
+    <div id="page-loader" class="page-loader">
+      <div class="loader-inner">
+        <div class="spinner"></div>
+        <div class="loader-text">Зареждане...</div>
+      </div>
+    </div>
+    <div id="shared-header"></div>
+    <main>
+      <section class="page">
+        <section class="hero">
+          <h1>Изчисли пирамиди</h1>
+          <p>
+            Изберете дата, за да изградите външната и вътрешната нумерологична
+            пирамида.
+          </p>
+        </section>
+        <section class="controls pyramid-controls">
+          <form id="pyramid-form">
+            <label for="pyramid-date"
+              >Дата на раждане
+              <input id="pyramid-date" type="date" required />
+            </label>
+            <button class="button" type="submit">Изчисли пирамиди</button>
+          </form>
+        </section>
+        <section class="pyramid-results" aria-live="polite">
+          <article class="pyramid-card">
+            <h2>Външна пирамида</h2>
+            <p>Основата е датата във формат ДДММГГГГ.</p>
+            <div class="pyramid" id="external-pyramid"></div>
+          </article>
+          <article class="pyramid-card">
+            <h2>Вътрешна пирамида</h2>
+            <p>Основата е обърната дата</p>
+            <div class="pyramid" id="internal-pyramid"></div>
+          </article>
+        </section>
+      </section>
+    </main>
+    <script src="../js/app.js"></script>
+    <script src="../js/headerLoader.js"></script>
+    <script src="../js/pyramids.js"></script>
+  </body>
+</html>
